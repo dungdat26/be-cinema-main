@@ -26,12 +26,25 @@ router.post("/add-producer", producerController.postProducer);
 
 router.get("/get-producers", producerController.getAllProducers);
 
+router.put("/edit-producer/:id_producer", producerController.updateProducer);
+
+router.get("/detail-producer/:id_producer", producerController.getDetailProducer);
 // */admin-page/add-actor
 router.post("/add-actor", actorController.postActor);
 
 router.get("/get-actors", actorController.getAllActors);
+
+router.put("/edit-actor/:id_actor", actorController.updateActor);
+
+router.get("/detail-actor/:id_actor", actorController.getDetailActor);
+
 // */admin-page/add-actor
 router.post("/add-director", directorController.postDirector);
 
-router.get("/get-director", directorController.getAllDirectors);
+router.get("/get-directors", directorController.getAllDirectors);
+
+router.put("/edit-director/:id_director", directorController.updateDirector);
+
+router.get("/detail-director/:id_director", directorController.getDetailDirector);
+
 module.exports = router;

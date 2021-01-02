@@ -125,12 +125,12 @@ exports.updateFilm = (req, res) => {
   const id_phim = req.params.id_phim;
   const dataFilm = req.body;
 
-  dataFilm.date = dataFilm.date.split("T")[0];
+  // dataFilm.date = dataFilm.date.split("T")[0];
 
   console.log("update");
   console.log(dataFilm);
 
-  FilmModel.updateFilm(id_phim, dataFilm)
+  FilmModel.findByIdAndUpdate(id_phim,{ $set:dataFilm } )
     .then((result) => {
       res.json({
         error: false,
