@@ -1,14 +1,14 @@
 const FilmModel = require("../models/film-model");
 const producerModel = require("../models/producer-model");
-const actorModel = require ("../models/actor-model");
-const directorModel = require ("../models/director-model");
+const actorModel = require("../models/actor-model");
+const directorModel = require("../models/director-model");
 
 exports.getAllFilm = async (req, res) => {
   //   console.log(req);
 
   // .execPopulate()
 
- const films = await FilmModel.find({},'name gender introduce avatar.thumb')
+  const films = await FilmModel.find({}, "name gender introduce avatar.thumb")
     .populate("producer")
     .populate("actors")
     .populate("director")
@@ -30,69 +30,96 @@ exports.getAllFilm = async (req, res) => {
 };
 
 exports.postAddFilm = (req, res) => {
-  const dataFilm = req.body;
-
   // console.log(dataFilm);
-  const producerId = req.body.producer;
+ 
+  console.log(req.body);
 
-  const actorId =  req.body.actor;
-  const directorId = req.body.director;
+  const dataFilm = { ...req.body };
+  dataFilm.actors = dataFilm.actors.map((actor) => {
+    return { actorId: actor };
+  });
+
+  
+  dataFilm.directors = dataFilm.directors.map((director)=>{
+    return { directorId: director};
+  })
+
+  dataFilm.producers = dataFilm.producers.map((producer)=>{
+    return { producerId: producer};
+  })
+
+  
+  dataFilm.types = dataFilm.types.map((type)=>{
+    return { typeId: type};
+  })
 
   const film = new FilmModel(dataFilm);
 
   film
     .save()
-    .then((result) => {
-      console.log(result);
+    .then((film) => {
+      console.log(film);
       
-      return producerModel.findById(producerId);
-
-      })
-    .then((producer)=>{
-      producer.film.push(result._id);
-
-      return producer.save();
-    })
-
-    ////save actor by ID
-    .save()
-    .then((result) => {
-      console.log(result);
-
-      return actorModel.findById(actorId);
-
-      })
-    .then((actor)=>{
-      actor.film.push(result._id);
-
-      return actor.save();
-    })
-
-    ///// save director by Id
-    .save()
-    .then((result) => {
-      console.log(result);
-      
-      return directorModel.findById(directorId);
-      })
-    .then((director)=>{
-      director.film.push(result._id);
-
-      return director.save();
-    })
-
-    .then((result)=>{
-      res.status(201).json({
-        //data
-      })
+      res.status(201).json(film);
     })
     .catch((err) => {
       console.log(err);
-
-      res.status(500).json({
-        message: "[post addfilm] co loi",
-      });
+      res.status(500).json(err);
     });
+
+  // film
+  //   .save()
+  //   .then((result) => {
+  //     console.log(result);
+
+  //     return producerModel.findById(producerId);
+
+  //     })
+  //   .then((producer)=>{
+  //     producer.film.push(result._id);
+
+  //     return producer.save();
+  //   })
+
+  //   ////save actor by ID
+  //   .save()
+  //   .then((result) => {
+  //     console.log(result);
+
+  //     return actorModel.findById(actorId);
+
+  //     })
+  //   .then((actor)=>{
+  //     actor.film.push([result._id]);
+
+  //     return actor.save();
+  //   })
+
+  //   ///// save director by Id
+  //   .save()
+  //   .then((result) => {
+  //     console.log(result);
+
+  //     return directorModel.findById(directorId);
+  //     })
+  //   .then((director)=>{
+  //     director.film.push(result._id);
+
+  //     return director.save();
+  //   })
+
+  //   .then((result)=>{
+  //     res.status(201).json({
+  //       //data
+  //     })
+  //   })
+
+  //   .catch((err) => {
+  //     console.log(err);
+  //     res.status(500).json({
+  //       message: "[post addfilm] co loi",
+  //     });
+  //   });
 
   //   res.json({
   //     message: "receive",
@@ -130,7 +157,7 @@ exports.updateFilm = (req, res) => {
   console.log("update");
   console.log(dataFilm);
 
-  FilmModel.findByIdAndUpdate(id_phim,{ $set:dataFilm } )
+  FilmModel.findByIdAndUpdate(id_phim, { $set: dataFilm })
     .then((result) => {
       res.json({
         error: false,

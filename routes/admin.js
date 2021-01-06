@@ -5,7 +5,7 @@ const filmController = require("../api/controller/film-controller");
 const producerController = require("../api/controller/producer-controller");
 const actorController = require("../api/controller/actor-controller");
 const directorController = require ("../api/controller/director-controller");
-
+const the_loai_phimController = require ("../api/controller/type-controller");
 
 const router = express.Router();
 
@@ -46,5 +46,10 @@ router.get("/get-directors", directorController.getAllDirectors);
 router.put("/edit-director/:id_director", directorController.updateDirector);
 
 router.get("/detail-director/:id_director", directorController.getDetailDirector);
+// */admin-page/get-the_loai
+ 
+router.post("/post-the_loai", the_loai_phimController.postTypeFilm);
 
+router.get("/get-the_loai", the_loai_phimController.getTypeFilm);
+                                                                                          
 module.exports = router;

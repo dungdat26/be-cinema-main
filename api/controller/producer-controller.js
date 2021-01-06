@@ -12,6 +12,7 @@ exports.postProducer = (req, res) => {
 
       res.status(201).json({
         message: "receive",
+        producer:result,
       });
     })
     .catch((err) => {
@@ -51,6 +52,7 @@ exports.updateProducer = (req, res) => {
   console.log(producerData);
 
   producerModel.findByIdAndUpdate(id_producer, {$set: producerData})
+  
     .then((result) => {
       res.json({
         error: false,

@@ -12,6 +12,7 @@ exports.postDirector = (req, res) => {
 
       res.status(201).json({
         message: "receive",
+        director: result,
       });
     })
     .catch((err) => {

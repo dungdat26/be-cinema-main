@@ -15,10 +15,15 @@ const filmSchema = new Schema({
     type: Number,
     required: true,
   },
-  type: {
-    type: String,
-    required: true,
-  },
+  types: [
+    {
+      typeId: {
+        type: Schema.Types.ObjectId,
+        required: true,
+        ref: "Types",
+      },
+    },
+  ],
   duration: {
     type: Number,
     required: true,
@@ -27,21 +32,33 @@ const filmSchema = new Schema({
     type: String,
     required: true,
   },
-  director: {
-    type: Schema.Types.ObjectId,
-    required: true,
-    ref: "Director",
-  },
-  actors: {
-    type: Schema.Types.ObjectId,
-    required: true,
-    ref: "Actor",
-  },
-  producer: {
-    type: Schema.Types.ObjectId,
-    required: true,
-    ref: "Producer",
-  },
+  directors: [
+    {
+      directorId: {
+        type: Schema.Types.ObjectId,
+        required: true,
+        ref: "Director",
+      },
+    },
+  ],
+  actors: [
+    {
+      actorId: {
+        type: Schema.Types.ObjectId,
+        required: true,
+        ref: "Actor",
+      },
+    },
+  ],
+  producers: [
+    {
+      producerId: {
+        type: Schema.Types.ObjectId,
+        required: true,
+        ref: "Producer",
+      },
+    },
+  ],
   country: {
     type: String,
     required: true,
