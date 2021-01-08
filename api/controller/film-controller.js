@@ -33,22 +33,23 @@ exports.postAddFilm = (req, res) => {
   // console.log(dataFilm);
  
   console.log(req.body);
-
+// map lại actors theo dạng array bên trong actors là object
   const dataFilm = { ...req.body };
   dataFilm.actors = dataFilm.actors.map((actor) => {
     return { actorId: actor };
   });
 
-  
+// map lại directors theo dạng array bên trong directors là object 
   dataFilm.directors = dataFilm.directors.map((director)=>{
     return { directorId: director};
   })
 
+  // map lại producers theo dạng array bên trong producers là object 
   dataFilm.producers = dataFilm.producers.map((producer)=>{
     return { producerId: producer};
   })
 
-  
+ // map lại types theo dạng array bên trong types là object 
   dataFilm.types = dataFilm.types.map((type)=>{
     return { typeId: type};
   })

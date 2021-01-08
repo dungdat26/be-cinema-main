@@ -11,6 +11,10 @@ const authSchema = new Schema ({
         type: String,
         required: true,
     },
+    cmpass: {
+        type: String,
+        required: true,
+    },
     name:{
         type: String,
         required:true,
