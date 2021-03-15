@@ -1,12 +1,12 @@
 const express = require("express");
+const { body } = require("express-validator");
 
-const adminController = require("../api/controller/auth-controller");
 const filmController = require("../api/controller/film-controller");
 const producerController = require("../api/controller/producer-controller");
 const actorController = require("../api/controller/actor-controller");
 const directorController = require ("../api/controller/director-controller");
 const the_loai_phimController = require ("../api/controller/type-controller");
-
+const admin_Controller = require("../api/controller/adminstrator-controller")
 const router = express.Router();
 
 // * /admin-page
@@ -62,5 +62,17 @@ router.post("/post-the_loai", the_loai_phimController.postTypeFilm);
 
 // */admin-page/get-the_loai
 router.get("/get-the_loai", the_loai_phimController.getTypeFilm);
-                                                                                          
+// */admin-page/signup
+router.post(
+    "/signup",
+    [
+      body("email").trim().isEmail().normalizeEmail(),
+      body("password").trim().isLength({ min: 6 }),
+    ],
+    admin_Controller.postSignup
+  );
+// */admin-page/Login     
+  router.post("/login", admin_Controller.postLogin);
+// */admin-page/auto-login    
+  router.get("/auto-login", admin_Controller.autoLogin);
 module.exports = router;

@@ -2,7 +2,7 @@ const mongoose = require("mongoose");
 
 const Schema = mongoose.Schema;
 
-const authSchema = new Schema({
+const admSchema = new Schema({
   email: {
     type: String,
     required: true,
@@ -31,14 +31,6 @@ const authSchema = new Schema({
     type: String,
     required: true,
   },
-  balance: {
-    type: Number,
-    default: 0,
-  },
-  avatar:{
-    type: String,
-  },
-  purchasedFilms: [{ type: Schema.Types.ObjectId, ref: "Film" }],
 });
 
-module.exports = mongoose.model("Auth", authSchema);
+module.exports = mongoose.model("Admin", admSchema);

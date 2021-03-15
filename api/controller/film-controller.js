@@ -70,63 +70,7 @@ exports.postAddFilm = (req, res) => {
       res.status(500).json(err);
     });
 
-  // film
-  //   .save()
-  //   .then((result) => {
-  //     console.log(result);
-
-  //     return producerModel.findById(producerId);
-
-  //     })
-  //   .then((producer)=>{
-  //     producer.film.push(result._id);
-
-  //     return producer.save();
-  //   })
-
-  //   ////save actor by ID
-  //   .save()
-  //   .then((result) => {
-  //     console.log(result);
-
-  //     return actorModel.findById(actorId);
-
-  //     })
-  //   .then((actor)=>{
-  //     actor.film.push([result._id]);
-
-  //     return actor.save();
-  //   })
-
-  //   ///// save director by Id
-  //   .save()
-  //   .then((result) => {
-  //     console.log(result);
-
-  //     return directorModel.findById(directorId);
-  //     })
-  //   .then((director)=>{
-  //     director.film.push(result._id);
-
-  //     return director.save();
-  //   })
-
-  //   .then((result)=>{
-  //     res.status(201).json({
-  //       //data
-  //     })
-  //   })
-
-  //   .catch((err) => {
-  //     console.log(err);
-  //     res.status(500).json({
-  //       message: "[post addfilm] co loi",
-  //     });
-  //   });
-
-  //   res.json({
-  //     message: "receive",
-  //   });
+  
 };
 
 exports.getDetailFilm = (req, res) => {
@@ -191,6 +135,35 @@ exports.updateFilm = (req, res) => {
         message: "error",
       });
     });
+};
+
+exports.searchFilmByName = async (req, res, next) => {
+  const { name } = req.query;
+
+  //? c là kí tự mình truyền vào
+  //? [] là khớp với những thứ có trong nó
+  //? \w\W và dấu cách là lấy tất cả các ký tự
+  //? * là có hoặc không có đều được
+  //! xong rồi đó làm tiếp đi
+
+  const stringRegex = name
+    .split("")
+    .map((c) => `${c}[\\w\\W ]*`)
+    .join("");
+
+  const nameRegex = new RegExp(stringRegex);
+
+  const films = await FilmModel.find({
+    $or: [
+      { EN_name: { $regex: nameRegex, $options: "gi" } },
+      { VN_name: { $regex: nameRegex, $options: "gi" } },
+    ],
+  });
+
+  // console.log(films);
+
+  res.json(films);
+  res.send(+req.query.name);
 };
 
 exports.searchFilmByName = async (req, res, next) => {

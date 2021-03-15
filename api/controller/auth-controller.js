@@ -6,6 +6,7 @@ const { validationResult } = require("express-validator");
 const AuthModel = require("../models/auth");
 const Cash = require("../models/cash");
 const Order = require("../models/order");
+const Comments = require("../models/comment-model");
 
 const secretkey = "akjhfwjsefkasecvybeoaljfalkwjf20358128957";
 
@@ -286,3 +287,43 @@ exports.updateProfile = (req, res) => {
       });
     });
 };
+exports.postComment = async (req, res, next) => {
+  const idPhim = req.params.id_phim;
+  const content = req.body.content;
+  const userId = req.userId;
+  // console.log(idPhim);
+  // console.log(content);
+  // console.log(userId);
+
+  try {
+    const comments = new Comments({
+      userId: userId,
+      content: content,
+      filmId: idPhim,
+    });
+    const result = await comments.save();
+    res.json(result);
+  } catch (err) {
+    console.log(err);
+    next(err);
+  }
+};
+exports.getComment = async (req, res, next) => {
+  const idPhim = req.params.id_phim_client;
+
+  try {
+    const content = await Comments.find({ filmId: idPhim })
+      .populate("userId", "name")
+      .sort({ commentDate: -1 });
+
+    // const responseComment = { ...content._doc };
+    res.json({ content: content });
+    console.log(content);
+  } catch (err) {
+    console.log(err);
+    next(err);
+  }
+};
+exports.deleteComment = async (req, res, next) => {
+
+}

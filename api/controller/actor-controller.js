@@ -85,3 +85,4 @@ exports.getDetailActor = (req, res) => {
       });
     });
 };
+

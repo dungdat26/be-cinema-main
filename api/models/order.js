@@ -11,14 +11,18 @@ const orderSchema = new Schema({
     {
       filmId: {
         type: Schema.Types.ObjectId,
-        ref: "Film",
       },
       price: Number,
     },
   ],
   purchasedDate: {
     type: Date,
-    default: Date.now,
+    default: Date.now(),
+  },
+  expireDate: {
+    type: Date,
+    // default: Date.now() + 200000,
+    default: Date.now() + 2592000000,
   },
 });
 
