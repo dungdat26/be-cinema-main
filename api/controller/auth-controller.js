@@ -101,7 +101,7 @@ exports.postSignup = async (req, res, next) => {
           // console.log(newUser);
           // newEmail = AuthModel.find({},'email');
           res.status(201).json({
-            // message: "đăng ký thành công ",
+             message: "đăng ký thành công ",
             // newUser:
             name: UserData.name,
             email: UserData.email,
@@ -127,7 +127,7 @@ exports.postSignup = async (req, res, next) => {
 };
 
 exports.autoLogin = async (req, res, next) => {
-  // console.log(req.userId);
+   console.log(req.userId);
   const id = req.userId;
   try {
     const user = await AuthModel.findById(id, "name email balance");

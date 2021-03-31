@@ -1,7 +1,7 @@
 const filmModel = require("../models/film-model");
 const authModel = require("../models/auth");
 const orderModel = require("../models/order");
-
+const actorModel = require("../models/actor-model")
 
 exports.getFilmClient = (req, res) => {
   filmModel
@@ -40,6 +40,8 @@ exports.getFilmClientById = async (req, res, next) => {
     }
 
     const responseFilm = { ...film._doc };
+    // const responseActors = { ...film._doc.actors };
+    // console.log(responseActors)
     // nếu phim chưa mua xóa url phim và trả data về
     if (!daMuaPhimHayChua) {
       delete responseFilm.urlFilm;
@@ -68,6 +70,7 @@ exports.getFilmClientById = async (req, res, next) => {
       // nếu mà ngày hết hạn lớn hơn ngày hôm nay thì phim đó còn hạn sử dụng
       if (arraypurchase.expireDate.toISOString() > today) {
         res.json({ films: responseFilm });
+      
         console.log("còn hạn sử dụng");
       } // nếu phim đó có ngày hết hạn nhỏ hơn ngày hiện tại thì hết hạn sử dụng
       // sau đó sẽ xóa urlphim và idphim trong purchasedfilm trong db của user để user có thể mua lại
@@ -158,15 +161,15 @@ exports.getFilmClientActorsById = async (req, res, next) => {
   try {
     const film = await filmModel
       .findById(id_phim)
-      .populate("producers.producerId")
       .populate("actors.actorId")
-      .populate("directors.directorId")
-      .populate("types.typeId");
-      if(id){
-
-        console.log(film.actors._id);
-        
-      }
+     
+        const responseActors = { ...film._doc.actors };
+        console.log(responseActors);
+      //   responseActors = responseActors.map((actor)=>{
+      //     return { actorId: actor}
+      //   })
+      // console.log(responseActors);
+      res.json({ actors: responseActors });
   } catch (err) {
     console.log(err);
     next(err);

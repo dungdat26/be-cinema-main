@@ -7,6 +7,7 @@ const actorController = require("../api/controller/actor-controller");
 const directorController = require ("../api/controller/director-controller");
 const the_loai_phimController = require ("../api/controller/type-controller");
 const admin_Controller = require("../api/controller/adminstrator-controller")
+const news_Controller = require("../api/controller/news-controller")
 const router = express.Router();
 
 // * /admin-page
@@ -73,6 +74,16 @@ router.post(
   );
 // */admin-page/Login     
   router.post("/login", admin_Controller.postLogin);
+  
 // */admin-page/auto-login    
   router.get("/auto-login", admin_Controller.autoLogin);
+// */admin-page/post-news
+  router.post("/post-news", news_Controller.postNews);
+// */admin-page/get-news
+  router.get("/get-allNews", news_Controller.getAllNews);
+// */admin-page/getdetail-news
+  router.get("/getdetail-News/:id_news", news_Controller.getDetailNews);
+// */admin-page/edit-news/:id_news
+  router.put("/edit-news/:id_news", news_Controller.updateNews);
+
 module.exports = router;

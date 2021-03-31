@@ -4,7 +4,7 @@ const { v4 } = require("uuid");
 const { validationResult } = require("express-validator");
 
 const adminModel = require("../models/administrator-model")
-const secretkey = "akjhfwjsefkasecdungdataljfalkwjf20358128957";
+const secretkey = "akjhfwjsefkasecvybeoaljfalkwjf20358128957";
 
 
 exports.postSignup = async (req, res, next) => {
@@ -107,12 +107,13 @@ exports.postSignup = async (req, res, next) => {
 
   
 exports.autoLogin = async (req, res, next) => {
-    // console.log(req.userId);
+    console.log(req.userId);
     const id = req.userId;
+    
     try {
-      const user = await adminModel.findById(id, "name email balance");
-  
-      res.json({ name: user.name, email: user.email, balance: user.balance });
+      const user = await adminModel.findById(id, "name email");
+      console.log(user)
+      res.json({ name: user.name, email: user.email });
     } catch (err) {
       console.log(err);
       next(err);

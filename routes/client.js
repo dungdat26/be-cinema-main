@@ -5,6 +5,9 @@ const filmClientController = require("../api/controller/film-client-controller")
 const authClientController = require('../api/controller/auth-controller');
 const route = express.Router();
 
+const news_Controller = require("../api/controller/news-controller")
+
+
 // * /client-page/
 route.get("/", filmClientController.getFilmClient);
 
@@ -23,7 +26,7 @@ route.post('/comments-client/:id_phim', authClientController.postComment);
 route.get('/get-comments/:id_phim_client', authClientController.getComment);
 module.exports = route;
 
-route.get(
-  "/get-films-id_actor/:id_phim_client",
-  filmClientController.getFilmClientActorsById
-);
+// */client-page/get-news
+route.get("/get-allNews", news_Controller.getAllNews);
+// */client-page/getdetail-news
+route.get("/getdetail-News/:id_news", news_Controller.getDetailNews);

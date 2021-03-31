@@ -16,7 +16,7 @@ exports.getAllFilm = async (req, res) => {
     .populate("director")
 
     .then((films) => {
-      console.log(films.producer);
+      console.log(films);
 
       res.status(200).json({
         films: films,
@@ -194,3 +194,20 @@ exports.searchFilmByName = async (req, res, next) => {
   res.json(films);
   res.send(+req.query.name);
 };
+
+exports.getPhimDangChieu = async (req, res) =>{
+   const today = new Date().toISOString();
+
+   try{
+    const film = await filmModel
+    .findById(id_phim)
+    .populate("producers.producerId")
+    .populate("actors.actorId")
+    .populate("directors.directorId")
+    .populate("types.typeId");
+    console.log(film)
+   }catch(err){
+    console.log(err);
+    next(err);
+   }
+}
