@@ -14,7 +14,7 @@ const { authMiddleware } = require("./middleware/auth-middleware");
 
 const app = express();
 
-const port = 4000;
+const port = process.env.PORT || 4000;
 const MONGO_URI =
   "mongodb+srv://sonvydat:sUSWkOuIXeoMNEe5@cluster0.50vn7.mongodb.net/rap_phim?retryWrites=true&w=majority";
 
